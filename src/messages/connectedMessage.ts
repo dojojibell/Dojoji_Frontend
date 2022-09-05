@@ -85,7 +85,7 @@ export const welcomeMessage: MessageContent = {
     'Welcome to the Bell of Dojoji!',
     'Let us begin our journey...',
     'If it is your first time here, you can start by minting your bell.\n If you already own one please go pray and ring the bell',
-   
+    `It's on your hands...`,
   ],
   actions: [
     {
