@@ -6,16 +6,25 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import { AppState, useMessageContext } from '../context/MessageContext'
 import { ISugarPretzelContext,useSugarPretzelContract} from '../context/SugarPretzelContext'
 import { Welcome } from '../Welcome'
+import { useWeb3 } from '../context/Web3Context'
 import { ChatInterface } from './ChatInterface'
 import { AppHeader } from './AppHeader'
 import { AppFooter } from './AppFooter'
 import { Transition } from '@headlessui/react'
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
+  const web3 =useWeb3()
 const dojojiContext = useSugarPretzelContract()
 const [balance, setBalance] = useState(Number);
 let toalRing=1;
 let isLoaded =false;
+console.log("this is connect")
+console.log(web3)
+const connect = async () => {
+  console.log(web3)
+ await web3.loginMetamask(false)
+  
+};
 
 useEffect(() => {
   if (!dojojiContext) return;
@@ -44,6 +53,7 @@ isLoaded=true;
   const bgprops2: CSS.Properties = {
     background: `linear-gradient(0.25turn,#00000000,${messageContext.backgroundColor})`,
     borderRadius: '25px',
+    
   }
   const bgprops3: CSS.Properties = {
     background: `linear-gradient(0.75turn,#00000000,${messageContext.backgroundColor})`,
@@ -54,7 +64,7 @@ isLoaded=true;
     width: '200%',
 
     height: '50%',
-    right: '10vh',
+    right: '5vh',
   }
   const bgpropsColor: CSS.Properties = {
     backgroundColor: messageContext.backgroundColor2,
@@ -62,7 +72,7 @@ isLoaded=true;
 
   return (
     <div
-      className="bg-yellow-800 flex flex-col h-screen bg-center overflow-hidden"
+      className="bg-yellow-800 flex flex-col h-screen bg-top overflow-hidden"
       style={bgprops}
     >
       <Transition
@@ -81,12 +91,12 @@ isLoaded=true;
           loop
           muted
           className="absolute object-cover content-center w-screen h-screen"
-          poster="/scenes/outside_bakery.png"
+          poster="/scenes/ou_bakery.png"
         >
-          <source src="/scenes/dojoji_scene.webm" type="video/webm" />
+          <source src="/scenes/dojoj_scene.webm" type="video/webm" />
         </video>
       </Transition>
-      <div className="flex flex-col h-screen bg-center" style={bgpropsColor}>
+      <div className="flex flex-col h-screen bg-top" style={bgpropsColor}>
         <AppHeader />
         {children}
 
@@ -125,7 +135,7 @@ isLoaded=true;
               />
             </video>
 
-            <div
+            {web3.address && (<div
               className="container z-0 flex flex-row justify-end"
               style={{
                 background: `linear-gradient(0.75turn,#00000000,${messageContext.backgroundColor})`,
@@ -137,7 +147,7 @@ isLoaded=true;
                 height: '50%',
                 minHeight:"370px",
 
-                left: '15%',
+                
                 alignItems: 'bottom',
                 padding: '30px',
                 paddingTop: '100px',
@@ -211,6 +221,7 @@ isLoaded=true;
                     borderRadius: "4px"
                   }}
                 >
+                
   </div>
                 </div>
               </div>
@@ -342,16 +353,16 @@ isLoaded=true;
                   </div>
                 </div>
               </div>
-            </div>
+            </div>)}
           </div>
 
           <div
-            className="container z-0 flex flex-row justify-end"
+            className="container z-0 flex flex-row justify-right"
             style={bgprops2}
           >
             <div
               className="w-10/12 overflow-visible"
-              style={{ fontFamily: 'chandler-42-regular', fontWeight: '800' }}
+              style={{position:"relative", marginLeft:"10%", bottom:"20%",maxWidth:"80vh",fontFamily: 'chandler-42-regular', fontWeight: '800' }}
             >
               <ChatInterface />
             </div>
@@ -361,7 +372,7 @@ isLoaded=true;
         {messageContext.appState === AppState.secret && (
           <div className="flex h-screen flex-row justify-end mr-4 ml-2">
             <div className="container mx-auto flex flex-row p-4">
-              <div className="container z-0 flex flex-row justify-start items-center">
+              <div className="container z-0 flex flex-row justify-end items-center">
                 <video
                   autoPlay
                   loop
@@ -379,7 +390,7 @@ isLoaded=true;
                 className="container z-50 d-flex flex-row justify-center"
                 style={bgprops2}
               >
-                <div className="w-10/12">
+                <div className="w-10/12"   >
                   <ChatInterface />
                 </div>
               </div>

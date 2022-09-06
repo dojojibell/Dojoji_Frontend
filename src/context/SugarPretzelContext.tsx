@@ -10,7 +10,8 @@ export interface ISugarPretzelContext {
   contractStandardWrite: ethers.Contract | undefined
   mintBell: () => Promise<number>
   ringNumber: () => Promise<number>
-  canMintGasless: () => Promise<boolean>
+  isHolder: () => Promise<boolean>
+  canRing: () => Promise<boolean>
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -78,13 +79,32 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const canMintGasless = async () => {
-    console.log('cant check gasless mint because no contract')
-
+  const isHolder = async () => {
+    
     if (contractRead === undefined) return false
 
     try {
-     
+      const balance = (await contractRead.balanceOf(address)) as BigNumber
+      console.log("o nr de bells",balance)
+      if(balance > BigNumber.from(0))
+      return true
+      else
+      return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+  const canRing = async () => {
+    
+    if (contractRead === undefined) return false
+
+    try {
+      const prays = (await contractRead.userPraySinceRing(address)) as BigNumber
+      console.log("o nr de prays",prays)
+      if(prays > BigNumber.from(2))
+      return true
+      else
       return false
     } catch (error) {
       console.log(error)
@@ -132,7 +152,8 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
         contractStandardWrite,
         ringNumber,
         mintBell,
-        canMintGasless,
+        isHolder,
+        canRing,
       }}
     >
       {children}
