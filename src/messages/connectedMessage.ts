@@ -118,9 +118,9 @@ export const welcomeMessage: MessageContent = {
         if(!isHolder)
             return messageContext.addMessage(freePretzelMessage, newHist)
           else
-         {changeToSecret(messageContext)
+         {
             return messageContext.addMessage(
-              connectWalletEthereumMessage,
+              PrayandRingMessage,
               //clears hist
               []
             )}
@@ -452,7 +452,7 @@ export const whatIsAChainMessage: MessageContent = {
 export const connectWalletPolygonMessage: MessageContent = {
   content: [
     'One step closer to join us in this quest...',
-    'First You need to connect your wallet.',
+    'You need to connect your wallet.',
   ],
   actions: [
     {
@@ -666,10 +666,10 @@ export const changeChainPolygonMessage2: MessageContent = {
   content: ['Great, now let us switch chain.'],
   actions: [
     {
-      content: 'Change to Polygon!',
+      content: 'Change to Ethereum!',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'Changing to Polygon.',
+          content: 'Changing to Ethereum.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -689,6 +689,148 @@ export const changeChainPolygonMessage2: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
+        return messageContext.addMessage(mainMenuMessage, newHist)
+      },
+    },
+  ],
+  delay: 1000,
+  type: MessageType.text,
+}
+export const PrayandRingMessage: MessageContent = {
+  content: [
+    'Looks like you already have a Bell',
+    'Have you prayed and ringged your bell today?',
+    
+    
+  ],
+  actions: [
+    {
+      content: 'Pray',
+      onClick: async (messageContext, web3Context, sugarPretzelContext) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I must pray to cleanse myself',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+
+        if (web3Context.isCorrectChain()) {
+         
+          const canPray = sugarPretzelContext.canRing()
+
+          newHist = await messageContext.addMessage(
+            {
+              content: [
+                'Praying is the only way to ring the bell...\nYou must pray 3 times before you can ring the bell',
+              ],
+              delay: 2000,
+              type: MessageType.text,
+            },
+            newHist
+          )
+         
+          //TODO @Johannes spinning wheel?
+
+          
+          if (!canPray) {
+            console.log('You must wait 12 hours before praying again')
+            return messageContext.addMessage(
+              somethingWentWrongWhileMintingMessage,
+              newHist
+            )
+          } else {
+            const tokenIdPromise = sugarPretzelContext.pray()
+            newHist = await messageContext.addMessage(
+              {
+                content: 'You are one prayer closer to enligtnment',
+                type: MessageType.text,
+              },
+              newHist
+            )
+           
+           
+            await sleep(400)
+            return messageContext.addMessage(freePretzelMessage2, newHist)
+          }
+        } else {
+          console.log('wrong chain')
+          return messageContext.addMessage(changeChainPolygonMessage, newHist)
+        }
+      },
+    },
+    {
+      content: 'Ring',
+      onClick: async (messageContext,web3Context,sugarPretzelContext) => {
+        let newHist = await messageContext.addMessage({
+          content: 'No, I dont want to be enlightned.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        if (web3Context.isCorrectChain()) {
+         
+          const ring = sugarPretzelContext.canRing()
+
+          newHist = await messageContext.addMessage(
+            {
+              content: [
+                'Praying is the only way to ring the bell...\nYou must pray 3 times before you can ring the bell',
+              ],
+              delay: 2000,
+              type: MessageType.text,
+            },
+            newHist
+          )
+       
+          
+
+          //TODO @Johannes spinning wheel?
+
+          
+          if (!ring) {
+            console.log('You must pray more to ring')
+            return messageContext.addMessage(
+              somethingWentWrongWhileMintingMessage,
+              newHist
+            )
+          } else {
+           
+           
+            newHist = await messageContext.addMessage(
+              {
+                content: 'You are one step closer to enligtnment',
+                type: MessageType.text,
+              },
+              newHist
+            )
+            
+           
+            await sleep(400)
+            return messageContext.addMessage(freePretzelMessage2, newHist)
+          }
+        } else {
+          console.log('wrong chain')
+          return messageContext.addMessage(changeChainPolygonMessage, newHist)
+        }
+      },
+    },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
@@ -812,6 +954,42 @@ export const freePretzelMessage: MessageContent = {
 }
 
 export const freePretzelMessage2: MessageContent = {
+  content: ['Help the community launch $DOJOJI faster', 'Spread the word on twitter!'],
+  actions: [
+    {
+      content: 'Of course!',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: 'Of course!',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        // TODO @Nick think about way to store last token mint
+
+        const pretzel_id = TOKENID
+        const twitterMessage = `Look%20at%20my%20awesome%20Pretzel%20fresh%20from%20the%20bakery%21%0Ahttps%3A%2F%2Fopensea.io%2Fassets%2Fmatic%2F0xbb542c33014ea667166361213e94135dab695d9c%2F${pretzel_id}%0AThe%20first%20one%20is%20100%25%20free%2C%20and%20by%20that%20I%20mean%20even%20gasless.%0A%40PretzelDAO%20%23sugarpretzels%20%0A`
+        const url = `https://twitter.com/intent/tweet?text=${twitterMessage}`
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+    {
+      content: 'No',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: "No, I'm good.",
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+  ],
+  delay: 1000,
+  type: [MessageType.text, MessageType.text],
+}
+export const PrayTwitterMessage2: MessageContent = {
   content: ['Help the community launch $DOJOJI faster', 'Spread the word on twitter!'],
   actions: [
     {
@@ -1436,7 +1614,7 @@ export const checkCanMintGasless: MessageContent = {
             },
             newHist
           )
-          return messageContext.addMessage(freePretzelMessage, newHist)
+          return messageContext.addMessage(PrayandRingMessage, newHist)
           
 
         }

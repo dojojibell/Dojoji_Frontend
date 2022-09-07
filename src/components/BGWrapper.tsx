@@ -45,10 +45,11 @@ isLoaded=true;
 })
 
 
-
+const isMobile = window.innerWidth <= 1000;
   const bgprops: CSS.Properties = {
     // backgroundImage: `url('/scenes/${messageContext.background}')`,
-    backgroundColor: messageContext.backgroundColor,
+   
+    background: " radial-gradient(circle, rgba(17,44,64,1) 0%, rgba(6,18,27,1) 96%)"
   }
   const bgprops2: CSS.Properties = {
     background: `linear-gradient(0.25turn,#00000000,${messageContext.backgroundColor})`,
@@ -90,10 +91,11 @@ isLoaded=true;
           autoPlay
           loop
           muted
-          className="absolute object-cover content-center w-screen h-screen"
+          className="absolute content-center w-screen h-screen"
           poster="/scenes/ou_bakery.png"
+          style={{width: isMobile ?  "100%": "50%",left: isMobile ? "3%" :"27%",bottom:"5%"}}
         >
-          <source src="/scenes/dojoj_scene.webm" type="video/webm" />
+          <source src="/scenes/outside_bakery_scene.webm" type="video/webm" />
         </video>
       </Transition>
       <div className="flex flex-col h-screen bg-top" style={bgpropsColor}>

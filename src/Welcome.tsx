@@ -19,7 +19,7 @@ export const Welcome: React.FC = ({ children }) => {
           style={{
             fontFamily :'chandler-42-regular',
             fontWeight: '600',
-            backgroundColor : "rgba(181,156,105,0.7)"
+            backgroundColor : "rgba(169,170,150,0.9)"
            }}
         >
           Enter Dojoji

@@ -12,6 +12,9 @@ export interface ISugarPretzelContext {
   ringNumber: () => Promise<number>
   isHolder: () => Promise<boolean>
   canRing: () => Promise<boolean>
+  canPray: () => Promise<boolean>
+  pray: () => Promise<number>
+
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -52,9 +55,38 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
       return -1
     }
   }
+  const _pray = async (fn: (args: any) => Promise<any>, args: object) => {
+    if (contractRead === undefined) return -1
+    try {
+      const txPending = await fn(args ?? {})
+      console.log(txPending.hash)
+      setTxHash(txPending.hash)
+
+      const txMinted = await txPending.wait()
+    
+     
+      
+      return 1
+    } catch (error) {
+      if (error?.code === -32603) {
+        const errorMessage = error.data.message.split(': ')[1]
+        console.log(errorMessage)
+      }
+      return -1
+    }
+  }
 
 
+  const pray = async () => {
+    console.log(contractStandardWrite)
+    if (contractStandardWrite === undefined) return -1
 
+    return _pray(contractStandardWrite.sendPray, {
+      value: ethers.utils.parseUnits(String(0), 'ether'),
+      gasLimit: 500000,
+      
+    })
+  }
   const mintBell = async () => {
     console.log(contractStandardWrite)
     if (contractStandardWrite === undefined) return -1
@@ -96,6 +128,23 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
   const canRing = async () => {
+    
+    if (contractRead === undefined) return false
+
+    try {
+      const prays = (await contractRead.userPraySinceRing(address)) as BigNumber
+      console.log("o nr de prays",prays)
+      if(prays > BigNumber.from(2))
+      return true
+      else
+      return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
+  const canPray = async () => {
     
     if (contractRead === undefined) return false
 
@@ -154,6 +203,8 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
         mintBell,
         isHolder,
         canRing,
+        canPray,
+        pray
       }}
     >
       {children}

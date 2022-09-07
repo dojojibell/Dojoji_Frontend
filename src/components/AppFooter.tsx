@@ -1,18 +1,18 @@
 import React from 'react'
-
+const isMobile = window.innerWidth <= 1000;
 export const AppFooter: React.FC = () => {
   return (
     <>
       <footer className="relative flex flex-wrap px-2 py-3 bg-transparent mb-3">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-          <span className="text-sm sm:text-center text-white">
+         {!isMobile &&( <span className="text-sm sm:text-center text-white">
             <a
               href="https://www.notion.so/Datenschutzerkl-rung-PretzelDAO-9a24d1a52198483e8c9cc728c554cb61"
               className=""
             >
              Copyright © 2023 All Rights Reserved by DojojiBell Labs.
             </a>
-          </span>
+          </span>)}
           <div className="flex mt-4 space-x-12 sm:justify-center sm:mt-0">
             <a
               href="https://www.notion.so/pretzeldao/PretzelDAO-b965318493954321ba7bf94b890f00c3"
