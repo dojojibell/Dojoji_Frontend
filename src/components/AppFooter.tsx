@@ -5,9 +5,9 @@ export const AppFooter: React.FC = () => {
     <>
       <footer className="relative flex flex-wrap px-2 py-3 bg-transparent mb-3">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-         {!isMobile &&( <span className="text-sm sm:text-center text-white">
+         {!isMobile &&( <span className="text-sm sm:text-center " style={{color:"rgba(255,255,255,0.8)",bottom:"0px"}}>
             <a
-              href="https://www.notion.so/Datenschutzerkl-rung-PretzelDAO-9a24d1a52198483e8c9cc728c554cb61"
+              href="kekek"
               className=""
             >
              Copyright © 2023 All Rights Reserved by DojojiBell Labs.

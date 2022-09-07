@@ -364,7 +364,7 @@ const isMobile = window.innerWidth <= 1000;
           >
             <div
               className="w-10/12 overflow-visible"
-              style={{position:"relative", marginLeft:"10%", bottom:"20%",maxWidth:"80vh",fontFamily: 'chandler-42-regular', fontWeight: '800' }}
+              style={{position:"relative", right: isMobile? "60%":"0", marginLeft:"10%", bottom: isMobile? "10%":"20%",maxWidth:"80vh",fontFamily: 'chandler-42-regular', fontWeight: '800' }}
             >
               <ChatInterface />
             </div>
