@@ -93,7 +93,7 @@ const isMobile = window.innerWidth <= 1000;
           muted
           className="absolute content-center w-screen h-screen"
           poster="/scenes/ou_bakery.png"
-          style={{width: isMobile ?  "100%": "50%",left: isMobile ? "3%" :"26%",bottom:"5%"}}
+          style={{position: "fixed" ,width: isMobile ?  "100%": "100%",left: isMobile ? "3%" :"26%",bottom:isMobile ? "10%" :"10vh"}}
         >
           <source src="/scenes/dojojii.webm" type="video/webm" />
         </video>
