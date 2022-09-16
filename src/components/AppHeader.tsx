@@ -27,7 +27,7 @@ export const AppHeader: React.FC = ({ children }) => {
           <div className="flex flex-row justify-end">
             <span className="text-lg sm:text-center text-white">
               <a
-                href="https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4"
+                href="https://dojojiquest.notion.site/D-j-ji-Bell-cc859e16244a4be2ba90665f09318415"
               >
                 FAQ
               </a>

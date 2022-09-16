@@ -85,7 +85,7 @@ export const welcomeMessage: MessageContent = {
     'Hello wanderer!',
     'Welcome to the Bell of Dojoji!', 
     'Let us begin our journey...',
-    'To enter Dojoji and see what lays beyond, first we must check if you are a worthy candidate!',
+    'To enter Dojoji and see what lays beyond, first we must check the lightness of your soul!',
    
     
   ],
@@ -226,7 +226,7 @@ export const checkSoldOutMessage: MessageContent = {
 }
 
 export const mainMenuMessage: MessageContent = {
-  content: ['Have you Prayed or Ringed the bell today?'],
+  content: ['Did you Pray today?'],
   actions: [
     {
       content: '!Pray',
@@ -698,8 +698,8 @@ export const changeChainPolygonMessage2: MessageContent = {
 }
 export const PrayandRingMessage: MessageContent = {
   content: [
-    'Looks like you already have a Bell',
-    'Have you prayed and ringged your bell today?',
+   
+    'Did you pray today?',
     
     
   ],
