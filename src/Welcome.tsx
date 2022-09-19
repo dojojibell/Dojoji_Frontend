@@ -9,6 +9,7 @@ export const Welcome: React.FC = ({ children }) => {
       <div className="z-50">
         <button
           className="p-3 text-black font-bold tracking-wide bg-primary transform rounded-md border-2 border-black w-40 hover:bg-gray-400 hover:translate-y-1 transition-all hover:cursor-pointer mx-2"
+        
           onClick={() => {
             messageContext.setAppState(AppState.chat)
 
@@ -18,11 +19,20 @@ export const Welcome: React.FC = ({ children }) => {
           }}
           style={{
             fontFamily :'chandler-42-regular',
-            fontWeight: '600',
+            fontWeight: '800',
+           fontSize:"1.5rem",
+           
             backgroundColor : "rgba(169,170,150,0.9)"
            }}
-        >
-          Enter Dojoji
+        ><div style={{ background: '-webkit-linear-gradient(#f0ecca, #f0ecca)',
+        WebkitBackgroundClip: 'text',
+        
+       top:"0px",
+
+        WebkitTextFillColor: 'transparent',}}>
+  (🔔,🔔) 
+
+  </div>
         </button>
 
       </div>

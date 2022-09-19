@@ -9,12 +9,19 @@ export interface ISugarPretzelContext {
   contractGaslessWrite: ethers.Contract | undefined
   contractStandardWrite: ethers.Contract | undefined
   mintBell: () => Promise<number>
+  claimBell: () => Promise<number>
   ringNumber: () => Promise<number>
   isHolder: () => Promise<boolean>
+  isEligible: () => Promise<boolean>
   canRing: () => Promise<boolean>
   canPray: () => Promise<boolean>
   pray: () => Promise<number>
-
+  ring: () => Promise<number>
+  praytoMint: () => Promise<number>
+  enlightnedBells: () => Promise<number>
+  totalMints: () => Promise<number>
+  totalPray: () => Promise<number>
+  mintPrice: () => Promise<string>
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -55,7 +62,7 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
       return -1
     }
   }
-  const _pray = async (fn: (args: any) => Promise<any>, args: object) => {
+  const _send = async (fn: (args: any) => Promise<any>, args: object) => {
     if (contractRead === undefined) return -1
     try {
       const txPending = await fn(args ?? {})
@@ -77,11 +84,32 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
 
+  const praytoMint = async () => {
+    console.log(contractStandardWrite)
+    if (contractStandardWrite === undefined) return -1
+
+    return _send(contractStandardWrite.prayToMint(), {
+      value: ethers.utils.parseUnits(String(0), 'ether'),
+      gasLimit: 500000,
+      
+    })
+  }
+
   const pray = async () => {
     console.log(contractStandardWrite)
     if (contractStandardWrite === undefined) return -1
 
-    return _pray(contractStandardWrite.sendPray, {
+    return _send(contractStandardWrite.pray(), {
+      value: ethers.utils.parseUnits(String(0), 'ether'),
+      gasLimit: 500000,
+      
+    })
+  }
+  const ring = async () => {
+    console.log(contractStandardWrite)
+    if (contractStandardWrite === undefined) return -1
+
+    return _send(contractStandardWrite.ringBell(), {
       value: ethers.utils.parseUnits(String(0), 'ether'),
       gasLimit: 500000,
       
@@ -97,6 +125,16 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
       
     })
   }
+  const claimBell = async () => {
+    console.log(contractStandardWrite)
+    if (contractStandardWrite === undefined) return -1
+
+    return _mint(contractStandardWrite.claimBell, {
+      value: ethers.utils.parseUnits(String(0.0222), 'ether'),
+      gasLimit: 500000,
+      
+    })
+  }
   const ringNumber = async () => {
     if (contractRead === undefined) return -1
     console.log(contractRead)
@@ -108,6 +146,60 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.log(error)
       return -1
+    }
+  }
+  const totalPray = async () => {
+    console.log("trying totalpray")
+    if (contractRead === undefined) return -1
+    console.log(contractRead)
+
+    try {
+      const prayers = (await contractRead._totalpray()) as BigNumber
+      console.log("totalprays")
+      console.log(prayers)
+      return prayers.toNumber()
+    } catch (error) {
+      console.log(error)
+      return -1
+    }
+  }
+  const enlightnedBells = async () => {
+    if (contractRead === undefined) return -1
+    console.log(contractRead)
+
+    try {
+      const eBell = (await contractRead._enligthenedBells()) as BigNumber
+      
+      return eBell.toNumber()
+    } catch (error) {
+      console.log(error)
+      return -1
+    }
+  }
+  const totalMints = async () => {
+    if (contractRead === undefined) return -1
+    console.log(contractRead)
+
+    try {
+      const mints = (await contractRead.totalSupply()) as BigNumber
+      
+      return mints.toNumber()
+    } catch (error) {
+      console.log(error)
+      return -1
+    }
+  }
+  const mintPrice = async () => {
+    if (contractRead === undefined) return "false"
+    console.log(contractRead)
+
+    try {
+      const _mintprice = (await contractRead.userMintPrice(address)) as BigNumber
+     const ethvalue= ethers.utils.formatEther(_mintprice);
+      return ethvalue.substring(0,5);
+    } catch (error) {
+      console.log(error)
+      return "false"
     }
   }
 
@@ -127,17 +219,28 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
       return false
     }
   }
+  const isEligible = async () => {
+    
+    if (contractRead === undefined) return false
+
+    try {
+      const isEligible = (await contractRead.isEligible(address)) 
+      
+      return isEligible
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
   const canRing = async () => {
     
     if (contractRead === undefined) return false
 
     try {
-      const prays = (await contractRead.userPraySinceRing(address)) as BigNumber
-      console.log("o nr de prays",prays)
-      if(prays > BigNumber.from(2))
-      return true
-      else
-      return false
+      const ring = (await contractRead._canRing(address)) 
+      
+      
+      return ring
     } catch (error) {
       console.log(error)
       return false
@@ -149,12 +252,9 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     if (contractRead === undefined) return false
 
     try {
-      const prays = (await contractRead.userPraySinceRing(address)) as BigNumber
-      console.log("o nr de prays",prays)
-      if(prays > BigNumber.from(2))
-      return true
-      else
-      return false
+      const pray = (await contractRead._canPray(address)) 
+     
+      return pray
     } catch (error) {
       console.log(error)
       return false
@@ -201,10 +301,18 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
         contractStandardWrite,
         ringNumber,
         mintBell,
+        claimBell,
         isHolder,
         canRing,
         canPray,
-        pray
+        isEligible,
+        ring,
+        pray,
+        praytoMint,
+        enlightnedBells,
+        totalMints,
+        totalPray,
+        mintPrice
       }}
     >
       {children}

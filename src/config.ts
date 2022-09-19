@@ -27,26 +27,26 @@ const CHAIN_CONFIG = {
     SCAN_LINK: 'https://kovan.etherscan.io',
     RPC_URL: 'https://kovan.infura.io/v3/',
   },
-  rinkeby: {
-    NAME: 'Rinkeby',
+  goerli: {
+    NAME: 'goerli',
     SYMBOL: 'ETH',
-    ID: 4,
-    SCAN_LINK: 'https://rinkeby.etherscan.io',
-    RPC_URL: 'https://rinkeby.infura.io/v3/',
+    ID: 5,
+    SCAN_LINK: 'https://goerli.etherscan.io',
+    RPC_URL: 'https://goerli.infura.io/v3/',
   },
 }
 
 export const CONFIG = {
   DEV: true,
   DOJOJI_GENESIS_CONTRACT: {
-    address: '0xbD36701A72baA0f5b23D93aD6884740055FE8Fa6',
-    DEV_CONFIG: CHAIN_CONFIG['rinkeby'],
-    MAIN_CONFIG: CHAIN_CONFIG['mainnet'],
+    address: '0x9abc200A1cf996191B2C0dfa228e28dd21708583',
+    DEV_CONFIG: CHAIN_CONFIG['goerli'],
+    MAIN_CONFIG: CHAIN_CONFIG['goerli'],
   },
   SUGAR_PRETZEL_CONTRACT: {
-    address: '0xbD36701A72baA0f5b23D93aD6884740055FE8Fa6',
-    DEV_CONFIG: CHAIN_CONFIG['rinkeby'],
-    MAIN_CONFIG: CHAIN_CONFIG['polygon'],
+    address: '0x9abc200A1cf996191B2C0dfa228e28dd21708583',
+    DEV_CONFIG: CHAIN_CONFIG['goerli'],
+    MAIN_CONFIG: CHAIN_CONFIG['goerli'],
   },
   PAYMASTER_CONTRACT: { address: '0x51CD28C89EB7B4620AE9beB3dcCA53b8501768e2' },
   GAS_LIMIT: null,

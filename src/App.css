@@ -41,6 +41,10 @@
     transform: rotate(360deg);
   }
 }
+@font-face {
+  font-family: "Shenttpuro";
+  src: url("Shenttpuro Font.ttf");
+}
 
 .mostofscreen {
   height: 80vh;
