@@ -143,7 +143,7 @@ export const welcomeMessage: MessageContent = {
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
         if (web3Context.address) {
           console.log('Wallet connected')
-          changeToSecret(messageContext)
+          
           newHist = await messageContext.addMessage(
             {
               content:
@@ -166,7 +166,7 @@ export const welcomeMessage: MessageContent = {
             []
           )
         } else {
-          changeToSecret(messageContext)
+          
           return messageContext.addMessage(
             connectWalletEthereumMessage,
             //clears hist
@@ -266,7 +266,7 @@ export const mainMenuMessage: MessageContent = {
 
         if (web3Context.address) {
           console.log('Wallet connected')
-          changeToSecret(messageContext)
+          
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
@@ -280,7 +280,7 @@ export const mainMenuMessage: MessageContent = {
             []
           )
         } else {
-          changeToSecret(messageContext)
+          
           return messageContext.addMessage(
             connectWalletEthereumMessage,
             //clears hist

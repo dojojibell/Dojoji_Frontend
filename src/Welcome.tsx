@@ -21,7 +21,7 @@ export const Welcome: React.FC = ({ children }) => {
             fontFamily :'chandler-42-regular',
             fontWeight: '800',
            fontSize:"1.5rem",
-           
+           width:"95%",
             backgroundColor : "rgba(169,170,150,0.9)"
            }}
         ><div style={{ background: '-webkit-linear-gradient(#f0ecca, #f0ecca)',
@@ -30,7 +30,7 @@ export const Welcome: React.FC = ({ children }) => {
        top:"0px",
 
         WebkitTextFillColor: 'transparent',}}>
-  (🔔,🔔) 
+  (🙏🏻,🔔) 
 
   </div>
         </button>

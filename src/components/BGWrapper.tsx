@@ -100,7 +100,7 @@ const isMobile = window.innerWidth <= 1000;
         appear={true}
         key={'bg'}
         show={messageContext.appState == AppState.welcome}
-        enter={`transition transform scale ease-linear duration-1600 delay-200`}
+       
         enterFrom="opacity-0 "
         enterTo="opacity-100 "
         leave="transition transform scale ease-linear duration-800  "
@@ -127,7 +127,7 @@ const isMobile = window.innerWidth <= 1000;
           appear={true}
           key={'bg'}
           show={messageContext.appState == AppState.chat}
-          enter={`transition transform scale ease-linear duration-2000 delay-500`}
+        
           enterFrom="opacity-0  "
           enterTo="opacity-100 "
         >
@@ -378,7 +378,7 @@ const isMobile = window.innerWidth <= 1000;
                   <ul>Mints: {totalsupply}/3333 🔔</ul>
                   <p>
                     <p>_totalPray: {prayers} 🙏🏻 </p>
-                     <p>_enligthenedBells: {enlightnedBells} ⛩️</p>
+                     <p>_enligthenedBells: {enlightnedBells}  ⛩️</p>
                      <p>_userMintPrice: {mintPrice}Ξ</p>
                   </p>
                 </div>
