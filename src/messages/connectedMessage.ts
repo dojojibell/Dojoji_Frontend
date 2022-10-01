@@ -136,7 +136,7 @@ export const welcomeMessage: MessageContent = {
         genesisPretzelContext
       ) => {
         let newHist = await messageContext.addMessage({
-          content: 'Genesis Pretzel sounds interesting!',
+          content: 'One must Pray to Ring the bell',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -144,14 +144,8 @@ export const welcomeMessage: MessageContent = {
         if (web3Context.address) {
           console.log('Wallet connected')
           
-          newHist = await messageContext.addMessage(
-            {
-              content:
-                'Your wallet is already connected.\nYour address: ' +
-                web3Context.address,
-              type: MessageType.text,
-            },
-            newHist
+          newHist = await messageContext.addMessage(mainMenuMessage, []
+           
           )
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
@@ -228,7 +222,7 @@ export const mainMenuMessage: MessageContent = {
       content: '!Pray',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'i must !pray to become whole again',
+          content: 'I must !pray to become whole again',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -257,7 +251,7 @@ export const mainMenuMessage: MessageContent = {
         genesisPretzelContext
       ) => {
         let newHist = await messageContext.addMessage({
-          content: 'Genesis Pretzel sounds interesting!',
+          content: 'Ring the bell to wake the dragon!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -703,7 +697,8 @@ export const PrayandRingMessage: MessageContent = {
         })
 
         if (web3Context.isCorrectChain()) {
-          const canPray = sugarPretzelContext.canRing()
+          const canPray = sugarPretzelContext.canPray()
+          const hasBell = sugarPretzelContext.isHolder()
 
           newHist = await messageContext.addMessage(
             {
@@ -725,7 +720,11 @@ export const PrayandRingMessage: MessageContent = {
               newHist
             )
           } else {
-            const tokenIdPromise = sugarPretzelContext.pray()
+            if(!hasBell){
+            const tokenIdPromise = sugarPretzelContext.praytoMint()
+          }else{
+            const tokenIdPromise1 = sugarPretzelContext.pray()
+          }
             newHist = await messageContext.addMessage(
               {
                 content: 'You are one prayer closer to enligtnment',
@@ -905,11 +904,26 @@ export const failedCheckBellMessage: MessageContent = {
         console.log('ON CHAIN:', web3Context.targetContract)
         if (web3Context.address) {
           console.log('Wallet connected')
-          const tokenIdPromise = sugarPretzelContext.pray()
+         
 
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainMainnetMessage, newHist)
           }
+          const canPray = sugarPretzelContext.canPray()
+          const hasBell = sugarPretzelContext.isHolder()
+          if (!canPray) {
+            console.log('You must wait 12 hours before praying again')
+            return messageContext.addMessage(
+              somethingWentWrongWhileMintingMessage,
+              newHist
+            )
+          } else {
+            if(!hasBell){
+            const tokenIdPromise = sugarPretzelContext.praytoMint()
+          }else{
+            const tokenIdPromise1 = sugarPretzelContext.pray()
+          }
+        }
 
           return messageContext.addMessage(mintBellMessage, newHist)
         } else {
@@ -1120,12 +1134,13 @@ export const mintBellMessage: MessageContent = {
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
         if (web3Context.address) {
-          console.log('Wallet connected')
-          const tokenIdPromise = sugarPretzelContext.pray()
-
+          
+         
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainMainnetMessage, newHist)
           }
+          const tokenIdPromise = sugarPretzelContext.pray()
+
 
           return messageContext.addMessage(mintBellMessage, newHist)
         } else {

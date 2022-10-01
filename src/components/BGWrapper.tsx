@@ -11,9 +11,13 @@ import { ChatInterface } from './ChatInterface'
 import { AppHeader } from './AppHeader'
 import { AppFooter } from './AppFooter'
 import { Transition } from '@headlessui/react'
+
+
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   const web3 =useWeb3()
+  
+
 const dojojiContext = useSugarPretzelContract()
 const [totalsupply, setTotalSupply] = useState(Number);
 const [prayers, setPrayers] = useState(Number);
@@ -21,7 +25,8 @@ const [rings, setRings] = useState(Number);
 const [enlightnedBells, setEnlightnedBells] = useState(Number);
 const [mintPrice, setMintPrice] = useState(String);
 const [hasBell, setHasBell] = useState(Boolean);
-
+const [canPray, setCanPray] = useState(Boolean);
+const [canRing, setCanRing] = useState(Boolean);
 
 const connect = async () => {
   console.log(web3)
@@ -42,6 +47,8 @@ console.log(dojojiContext);
     setMintPrice(await dojojiContext.mintPrice());
     setRings(await dojojiContext.ringNumber());
     setHasBell(await dojojiContext.isHolder());
+    setCanPray(await dojojiContext.canPray());
+    setCanRing(await dojojiContext.canRing());
   };
   load()
 }, [dojojiContext]);

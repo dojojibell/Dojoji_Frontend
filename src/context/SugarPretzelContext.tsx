@@ -117,10 +117,12 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   }
   const mintBell = async () => {
     console.log(contractStandardWrite)
+    
     if (contractStandardWrite === undefined) return -1
-
+    if (contractRead === undefined) return -1
+    const _mintprice = (await contractRead.userMintPrice(address)) as BigNumber
     return _mint(contractStandardWrite.mintBell, {
-      value: ethers.utils.parseUnits(String(0.0333), 'ether'),
+      value: _mintprice,
       gasLimit: 500000,
       
     })
